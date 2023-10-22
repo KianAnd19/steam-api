@@ -78,6 +78,44 @@ def get_user_profile(username):
     user["artwork"] = int(temp[3].text)
 
 
+    ## Gets the users recent games
+    user["comments"] = 0
+    results = soup.find("span", {"id": "commentthread_Profile_76561198301205885_totalcount"})
+    if (results != None):
+        user["comments"] = int(results.text)
+        
+
+    ## Recent activity time
+    results = soup.find("div", {"class": "recentgame_quicklinks recentgame_recentplaytime"})
+    user["recent_activity"] = results.text
+
+
+    ## Recent activity game
+    results = soup.find("div", {"class": "recent_games"})
+    temp = results.findAll("div", {"class": "recent_game"})
+    recent_games = []
+
+    for game in temp:
+        game_info = {}
+        game_info["name"] = game.find("div", {"class": "game_name"}).text
+        game_info["img"] = game.find("img")["src"]
+        game_info["link"] = game.find("a")["href"]
+        game_info["achievements"] = game.find("span", {"class": "ellipsis"}).text.strip()
+        text = game.find("div", {"class": "game_info"}).text.strip()
+        first_space_index = text.find(" ")
+
+        if first_space_index != -1:
+            result = text[:first_space_index]
+            game_info["hours"] = (result)
+        else:
+            game_info["hours"] = 0
+        recent_games.append(game_info)        
+
+    user["recent_games"] = recent_games
+
+
+
+    
 
     return user
 
@@ -108,4 +146,4 @@ def getRequest(url, params=None):
 
 
 
-print(get_user_profile("grandpasaurus"))
+# print(get_user_profile("grandpasaurus"))
