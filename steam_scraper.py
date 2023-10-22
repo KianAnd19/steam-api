@@ -48,49 +48,6 @@ def get_user_profile(username):
     user["friends"] = int(temp.text)
 
 
-    ## Gets the top level friends
-    results = soup.find("div", {"class": "profile_topfriends profile_count_link_preview"})
-    temp = soup.findAll("div", {"class": "friendBlock persona online"}) + soup.findAll("div", {"class": "friendBlock persona offline"}) + soup.findAll("div", {"class": "friendBlock persona in-game"})
-    top_friends = []
-    for friend in temp:
-        friend_info = {}
-        text = friend.find("div", {"class": "friendBlockContent"}).text.strip()
-        match = re.search(r'\n', text)
-
-        if match:
-            result = text[:match.start()]
-            friend_info["name"] = result
-
-
-        friend_info["img"] = friend.find("img")["src"]
-        friend_info["link"] = friend.find("a")["href"]
-        friend_info["level"] = int(friend.find("span", {"class": "friendPlayerLevelNum"}).text)
-        top_friends.append(friend_info)
-    user["top_friends"] = top_friends
-
-
-    ## Gets the number of user games
-    results = soup.find("div", {"class": "profile_group_links profile_count_link_preview_ctn responsive_groupfriends_element"})
-    temp = results.find("span", {"class": "profile_count_link_total"})
-    user["games_owned"] = int(temp.text)
-
-    ## Gets the number of user groups
-    results = soup.find("div", {"class": "profile_group_links profile_count_link_preview_ctn responsive_groupfriends_element"})
-    temp = results.find("span", {"class": "profile_count_link_total"})
-    user["groups"] = int(temp.text)
-
-    results = soup.find("div", {"class": "profile_group profile_primary_group"})
-    primary_group = {}
-    temp = results.find("a", {"class": "whiteLink"})
-    primary_group["name"] = temp.text.strip()
-    primary_group["url"] = results.find("a")["href"]
-    primary_group["image_url"] = results.find("img")["src"]
-    primary_group["member_count"] = results.find("div", {"class": "profile_group_membercount"}).text
-    user["primary_group"] = primary_group
-
-    
-
-
     ## Gets the number of user badges
     results = soup.find("div", {"class": "profile_badges"})
     temp = results.find("span", {"class": "profile_count_link_total"})
@@ -123,6 +80,52 @@ def get_user_profile(username):
     user["recent_activity"] = results.text.strip()
 
 
+    ## Gets the number of user games
+    results = soup.find("div", {"class": "profile_group_links profile_count_link_preview_ctn responsive_groupfriends_element"})
+    temp = results.find("span", {"class": "profile_count_link_total"})
+    user["games_owned"] = int(temp.text)
+
+    ## Gets the number of user groups
+    results = soup.find("div", {"class": "profile_group_links profile_count_link_preview_ctn responsive_groupfriends_element"})
+    temp = results.find("span", {"class": "profile_count_link_total"})
+    user["groups"] = int(temp.text)
+
+    ## Gets the top level friends
+    results = soup.find("div", {"class": "profile_topfriends profile_count_link_preview"})
+    temp = soup.findAll("div", {"class": "friendBlock persona online"}) + soup.findAll("div", {"class": "friendBlock persona offline"}) + soup.findAll("div", {"class": "friendBlock persona in-game"})
+    top_friends = []
+    for friend in temp:
+        friend_info = {}
+        text = friend.find("div", {"class": "friendBlockContent"}).text.strip()
+        match = re.search(r'\n', text)
+
+        if match:
+            result = text[:match.start()]
+            friend_info["name"] = result
+
+
+        friend_info["img"] = friend.find("img")["src"]
+        friend_info["link"] = friend.find("a")["href"]
+        friend_info["level"] = int(friend.find("span", {"class": "friendPlayerLevelNum"}).text)
+        top_friends.append(friend_info)
+    user["top_friends"] = top_friends
+
+    ## Gets the primary group
+    results = soup.find("div", {"class": "profile_group profile_primary_group"})
+    primary_group = {}
+    temp = results.find("a", {"class": "whiteLink"})
+    primary_group["name"] = temp.text.strip()
+    primary_group["url"] = results.find("a")["href"]
+    primary_group["image_url"] = results.find("img")["src"]
+    text = results.find("div", {"class": "profile_group_membercount"}).text
+    # text = friend.find("div", {"class": "friendBlockContent"}).text.strip()
+    match = re.search(r'\s', text)
+    if match:
+        result = text[:match.start()]
+        primary_group["member_count"] = numerical(result)
+    user["primary_group"] = primary_group
+
+    
     ## Recent activity game
     results = soup.find("div", {"class": "recent_games"})
     temp = results.findAll("div", {"class": "recent_game"})
@@ -139,16 +142,12 @@ def get_user_profile(username):
 
         if first_space_index != -1:
             result = text[:first_space_index]
-            game_info["hours"] = (result)
+            game_info["hours"] = numerical(result)
         else:
             game_info["hours"] = 0
         recent_games.append(game_info)        
 
     user["recent_games"] = recent_games
-
-
-
-    
 
     return user
 
@@ -177,6 +176,15 @@ def getRequest(url, params=None):
 
     return response
 
+
+def numerical(text):
+    if re.search(r',', text):
+        text = text.replace(',', '')
+        return int(text)
+    elif re.search(r'.', text):
+        return float(text)
+    else:
+        return int(text)
 
 
 # print(get_user_profile("grandpasaurus"))
