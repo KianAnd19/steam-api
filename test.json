@@ -5,34 +5,78 @@
     "description": "\r\n\t\t\t\t\t\t\t\tWas Silver Elite until started playing with SneakyMaens XD\u279c Silver 1 : \u2714 \u279c Silver 2 : \u2714 (Current rank)\u279c Silver 3 : \u2714 \u279c Silver 4 : \u2714 \u279c Silver Elite : \u2714 \u279c Silver Elite Master : \u2716\u279c Gold Nova 1 :  \u2716\u279c Gold Nova 2 : \u2716\u279c Gold Nova 3 :  \u2716\u279c Gold Nova Master :  \u2716\u279c Master Guardian 1 :  \u2716\u279c Master Guardian 2 : \u2716\u279c Master Guardian Elite :  \u2716\u279c Distinguished Master Guardian :  \u2716\u279c Legendary Eagle : \u2716\u279c Legendary Eagle Master : \u2716\u279c Supreme Master First Class : \u2716 \u279c The Global Elite : \u2716\t\t\t\t\t\t\t",
     "level": 39,
     "friends": 87,
+    "top_friends": [
+        {
+            "name": "Noncelores Cumbridge",
+            "img": "https://avatars.akamai.steamstatic.com/b1fd6d2a128e673b21e453c4baa528c863650394_medium.jpg",
+            "link": "https://steamcommunity.com/profiles/76561198279721485",
+            "level": 92
+        },
+        {
+            "name": "\ud83d\udc7f\ud835\udd44\ud835\udd55\ud835\udd44\ud83d\udc7f",
+            "img": "https://avatars.akamai.steamstatic.com/faeef81a0980d32d0a89a2bd434a0ea6bade3c3a_medium.jpg",
+            "link": "https://steamcommunity.com/profiles/76561198051414229",
+            "level": 75
+        },
+        {
+            "name": "gigabyte210",
+            "img": "https://avatars.akamai.steamstatic.com/c03a3d421ce3e8cd051b204f3ec05de695781bfd_medium.jpg",
+            "link": "https://steamcommunity.com/profiles/76561198101330139",
+            "level": 57
+        },
+        {
+            "name": "Sol",
+            "img": "https://avatars.akamai.steamstatic.com/f9d430f39543a3685d37d0779b1cf73b7369de7d_medium.jpg",
+            "link": "https://steamcommunity.com/id/_NN_",
+            "level": 92
+        },
+        {
+            "name": "CheezyLlama",
+            "img": "https://avatars.akamai.steamstatic.com/6330c0531c83e7262767b52a29728f6801bcc289_medium.jpg",
+            "link": "https://steamcommunity.com/profiles/76561198877512295",
+            "level": 54
+        },
+        {
+            "name": "fire",
+            "img": "https://avatars.akamai.steamstatic.com/2c0cd25a7a49b05c1b35aedd25d2e663489634a3_medium.jpg",
+            "link": "https://steamcommunity.com/id/fir3_haz4rd",
+            "level": 60
+        }
+    ],
     "games_owned": 2,
     "groups": 2,
+    "primary_group": {
+        "name": "Strid\u025b",
+        "url": "https://steamcommunity.com/groups/Team-Stride",
+        "image_url": "https://avatars.akamai.steamstatic.com/5703dedbb3300bc6e498839ab338fba58df43d90_medium.jpg",
+        "member_count": "26 Members"
+    },
     "badges": 14,
     "games": 26,
     "screenshots": 3,
     "artwork": 7,
     "comments": 11,
-    "recent_activity": "\n10.5 hours past 2 weeks\n",
+    "recent_activity": "10.5 hours past 2 weeks",
     "recent_games": [
         {
             "name": "Counter-Strike 2",
             "img": "https://cdn.akamai.steamstatic.com/steam/apps/730/capsule_184x69.jpg?t=1696513856",
             "link": "https://steamcommunity.com/app/730",
-            "span": "1 of 1",
+            "achievements": "1 of 1",
             "hours": "1,996"
         },
         {
             "name": "Wallpaper Engine",
             "img": "https://cdn.akamai.steamstatic.com/steam/apps/431960/capsule_184x69.jpg?t=1665921297",
             "link": "https://steamcommunity.com/app/431960",
-            "span": "3 of 17",
+            "achievements": "3 of 17",
             "hours": "2.7"
         },
         {
             "name": "One-armed cook",
             "img": "https://cdn.akamai.steamstatic.com/steam/apps/1977530/capsule_184x69.jpg?t=1697536754",
             "link": "https://steamcommunity.com/app/1977530",
-            "span": "0 of 22",
+            "achievements": "0 of 22",
             "hours": "0.6"
         }
     ]

@@ -3,6 +3,7 @@ import json
 import logging
 import time
 from bs4 import BeautifulSoup
+import re
 
 
 def get_user_profile(username):
@@ -47,6 +48,27 @@ def get_user_profile(username):
     user["friends"] = int(temp.text)
 
 
+    ## Gets the top level friends
+    results = soup.find("div", {"class": "profile_topfriends profile_count_link_preview"})
+    temp = soup.findAll("div", {"class": "friendBlock persona online"}) + soup.findAll("div", {"class": "friendBlock persona offline"}) + soup.findAll("div", {"class": "friendBlock persona in-game"})
+    top_friends = []
+    for friend in temp:
+        friend_info = {}
+        text = friend.find("div", {"class": "friendBlockContent"}).text.strip()
+        match = re.search(r'\n', text)
+
+        if match:
+            result = text[:match.start()]
+            friend_info["name"] = result
+
+
+        friend_info["img"] = friend.find("img")["src"]
+        friend_info["link"] = friend.find("a")["href"]
+        friend_info["level"] = int(friend.find("span", {"class": "friendPlayerLevelNum"}).text)
+        top_friends.append(friend_info)
+    user["top_friends"] = top_friends
+
+
     ## Gets the number of user games
     results = soup.find("div", {"class": "profile_group_links profile_count_link_preview_ctn responsive_groupfriends_element"})
     temp = results.find("span", {"class": "profile_count_link_total"})
@@ -56,6 +78,17 @@ def get_user_profile(username):
     results = soup.find("div", {"class": "profile_group_links profile_count_link_preview_ctn responsive_groupfriends_element"})
     temp = results.find("span", {"class": "profile_count_link_total"})
     user["groups"] = int(temp.text)
+
+    results = soup.find("div", {"class": "profile_group profile_primary_group"})
+    primary_group = {}
+    temp = results.find("a", {"class": "whiteLink"})
+    primary_group["name"] = temp.text.strip()
+    primary_group["url"] = results.find("a")["href"]
+    primary_group["image_url"] = results.find("img")["src"]
+    primary_group["member_count"] = results.find("div", {"class": "profile_group_membercount"}).text
+    user["primary_group"] = primary_group
+
+    
 
 
     ## Gets the number of user badges
@@ -87,7 +120,7 @@ def get_user_profile(username):
 
     ## Recent activity time
     results = soup.find("div", {"class": "recentgame_quicklinks recentgame_recentplaytime"})
-    user["recent_activity"] = results.text
+    user["recent_activity"] = results.text.strip()
 
 
     ## Recent activity game
