@@ -56,6 +56,10 @@ You can install the required Python packages using pip:
 
 `pip install Flask beautifulsoup4 requests`
 
+or
+
+`pip install -r requirements.txt`
+
 
 ## Installation
 
