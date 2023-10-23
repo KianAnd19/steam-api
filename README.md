@@ -54,8 +54,7 @@ Follow these instructions to get the project up and running on your local machin
 
 You can install the required Python packages using pip:
 
-```bash
-pip install Flask beautifulsoup4 requests
+`pip install Flask beautifulsoup4 requests`
 
 
 ## Installation
