@@ -65,7 +65,7 @@ or
 
 1. Clone the repository to your local machine:
 
-`git clone https://github.com/yourusername/steam-profile-scraper.git`
+`git clone git@github.com:KianAnd19/steam-api.git`
 
 2. Switch to the project directory
 
@@ -74,3 +74,9 @@ or
 3. Run the Flash web application:
 
 `python3 steam_api.py`
+
+## Routes
+
+1. Get a users profile
+
+`http://127.0.0.1:5000/user/<id>`
