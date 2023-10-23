@@ -9,11 +9,11 @@ A Python script and Flask web application for scraping and displaying Steam user
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage)
+<!-- - [Usage](#usage)
 - [Development](#development)
 - [Deployment](#deployment)
 - [Contributing](#contributing)
-- [License](#license)
+- [License](#license) -->
 
 ## Introduction
 
@@ -61,7 +61,7 @@ or
 `pip install -r requirements.txt`
 
 
-## Installation
+### Installation
 
 1. Clone the repository to your local machine:
 
