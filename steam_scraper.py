@@ -5,9 +5,9 @@ import time
 from bs4 import BeautifulSoup
 import re
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 
@@ -158,37 +158,19 @@ def get_user_profile(username):
 
 
 def get_user_inventory_cs(username):
-    # Options for Chrome WebDriver
+
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run chrome in headless mode (no GUI)
+    chrome_options.add_argument("--headless")
+    # Options for Chrome WebDriver
+    service = Service(ChromeDriverManager().install())
+ 
+    with webdriver.Chrome(service=service, options=chrome_options) as driver:
+        url = 'https://www.crawler-test.com'
+        driver.get(url)
+        title = driver.title
+        return title
 
-    # Initialize the Chrome WebDriver
-    driver = webdriver.Chrome(options=chrome_options)
-
-    URL = f"https://steamcommunity.com/id/{username}/inventory/#730"
-    driver.get(URL)
-
-    # Wait for the content to load dynamically
-    # Adjust the sleep time based on your needs. You might also consider using WebDriverWait for more dynamic waits.
-    # try:
-    #     # Wait up to 30 seconds for the 'inventory_page' class element to be loaded
-    #     element = WebDriverWait(driver, 30).until(
-    #         EC.presence_of_element_located((By.CLASS_NAME, "inventory_page"))
-    #     )
-    # except Exception as e:
-    #     print("Error: ", e)
-    #     driver.quit()
-    #     return None
-    time.sleep(5)
-
-    # Now you can use Selenium's find_element or find_elements methods to get the content
-    # For instance:
-    results = driver.find_element(By.CLASS_NAME, "inventory_page")
-
-    # Close the browser once done
-    driver.quit()
-
-    return results.text  # or any other processing you'd like
+    return 1  # or any other processing you'd like
 
 
 ## Exponential backoff in case of 429 error
