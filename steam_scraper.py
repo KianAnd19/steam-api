@@ -165,12 +165,27 @@ def get_user_inventory_cs(username):
     service = Service(ChromeDriverManager().install())
  
     with webdriver.Chrome(service=service, options=chrome_options) as driver:
-        url = 'https://www.crawler-test.com'
+        url = f'https://steamcommunity.com/id/{username}/inventory/#730'
         driver.get(url)
-        title = driver.title
-        return title
 
-    return 1  # or any other processing you'd like
+        items = []
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        results = soup.find("div", {"class": "inventory_page"})  # Extract the title using Beautiful Soup
+        for item in results.findAll("div", {"class": "itemHolder"}):
+            single = item.find("a")
+            if single is not None:
+                href_value = single["href"]
+                link_css_selector = f"a[href='{href_value}']"
+                link = driver.find_element(By.CSS_SELECTOR, link_css_selector)
+                link.click()
+
+                items.append(single["href"])
+            else:
+                print("Element not found")
+
+            href_value = single["href"]
+            
+        return items
 
 
 ## Exponential backoff in case of 429 error
