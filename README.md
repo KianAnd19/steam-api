@@ -84,7 +84,8 @@ or
 
 ## Example Output
 The following is the output given when my own steam profile is requested
-```{
+```
+{
     "profile_block": "Grandpasaurus",
     "location": "",
     "avatar": "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/items/1098340/71f42ec23a7f80c365f0c3900a6e61bdc78733d7.png",
@@ -165,4 +166,5 @@ The following is the output given when my own steam profile is requested
             "hours": 5.8
         }
     ]
-}```
+}
+```
