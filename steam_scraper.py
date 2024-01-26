@@ -82,7 +82,7 @@ def get_user_profile(username):
 
     ## Recent activity time
     results = soup.find("div", {"class": "recentgame_quicklinks recentgame_recentplaytime"})
-    user["recent_activity"] = results.text.strip()
+    if results != None: user["recent_activity"] = results.text.strip()
 
 
     ## Gets the number of user games
@@ -141,7 +141,9 @@ def get_user_profile(username):
         game_info["name"] = game.find("div", {"class": "game_name"}).text
         game_info["img"] = game.find("img")["src"]
         game_info["link"] = game.find("a")["href"]
-        game_info["achievements"] = game.find("span", {"class": "ellipsis"}).text.strip()
+        game_info["achievements"] = game.find("span", {"class": "ellipsis"})
+        if game_info["achievements"] != None:
+            game_info["achievements"] = game_info["achievements"].text.strip()
         text = game.find("div", {"class": "game_info"}).text.strip()
         first_space_index = text.find(" ")
 
@@ -222,4 +224,4 @@ def numerical(text):
         return int(text)
 
 
-print(get_user_inventory_cs("grandpasaurus"))
+print(get_user_profile("grandpasaurus"))
