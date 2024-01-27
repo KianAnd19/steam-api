@@ -9,6 +9,9 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 
 
 def get_user_profile(username):
@@ -160,33 +163,34 @@ def get_user_profile(username):
 
 
 def get_user_inventory_cs(username):
-
     chrome_options = Options()
     chrome_options.add_argument("--headless")
-    # Options for Chrome WebDriver
     service = Service(ChromeDriverManager().install())
- 
+
     with webdriver.Chrome(service=service, options=chrome_options) as driver:
         url = f'https://steamcommunity.com/id/{username}/inventory/#730'
         driver.get(url)
 
+        # Wait for the inventory items to load
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "inventory_item_link"))
+        )
+
         items = []
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
-        results = soup.find("div", {"class": "inventory_page"})  # Extract the title using Beautiful Soup
-        for item in results.findAll("div", {"class": "itemHolder"}):
-            single = item.find("a")
-            if single is not None:
-                href_value = single["href"]
-                link_css_selector = f"a[href='{href_value}']"
-                link = driver.find_element(By.CSS_SELECTOR, link_css_selector)
-                link.click()
+        # Now using Selenium to find elements
+        results = driver.find_elements(By.CLASS_NAME, "itemHolder")
+        for item in results:
+            try:
+                temp = item.find_element(By.CSS_SELECTOR, ".item.app730.context2")
+                item_id = temp.get_attribute("id")
+                if item_id:
+                    items.append(item_id)
+                else:
+                    print("Found element does not have an ID attribute")
+            except NoSuchElementException:
+                print("Specific element not found in this itemHolder")
 
-                items.append(single["href"])
-            else:
-                print("Element not found")
 
-            href_value = single["href"]
-            
         return items
 
 
@@ -224,4 +228,4 @@ def numerical(text):
         return int(text)
 
 
-print(get_user_profile("grandpasaurus"))
+print(get_user_inventory_cs("grandpasaurus"))
