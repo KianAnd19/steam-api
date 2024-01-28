@@ -12,6 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 def get_user_profile(username):
@@ -164,7 +165,7 @@ def get_user_profile(username):
 
 def get_user_inventory_cs(username):
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--headless")
     service = Service(ChromeDriverManager().install())
 
     with webdriver.Chrome(service=service, options=chrome_options) as driver:
@@ -190,6 +191,22 @@ def get_user_inventory_cs(username):
             except NoSuchElementException:
                 print("Specific element not found in this itemHolder")
 
+
+        # Execute the JavaScript function directly
+        # driver.execute_script("InventoryNextPage();")
+        # time.sleep(10)
+
+        # results = driver.find_elements(By.CLASS_NAME, "itemHolder")
+        # for item in results:
+        #     try:
+        #         temp = item.find_element(By.CSS_SELECTOR, ".item.app730.context2")
+        #         item_id = temp.get_attribute("id")
+        #         if item_id:
+        #             items.append(item_id)
+        #         else:
+        #             print("Found element does not have an ID attribute")
+        #     except NoSuchElementException:
+        #         print("Specific element not found in this itemHolder")
 
         return items
 
@@ -228,4 +245,4 @@ def numerical(text):
         return int(text)
 
 
-print(get_user_inventory_cs("grandpasaurus"))
+# print(get_user_inventory_cs("grandpasaurus"))
