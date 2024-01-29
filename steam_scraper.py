@@ -195,23 +195,6 @@ def get_user_inventory_cs(username):
             except NoSuchElementException:
                 print("Specific element not found in this itemHolder")
 
-
-        # Execute the JavaScript function directly
-        
-        # time.sleep(10)
-
-        # results = driver.find_elements(By.CLASS_NAME, "itemHolder")
-        # for item in results:
-        #     try:
-        #         temp = item.find_element(By.CSS_SELECTOR, ".item.app730.context2")
-        #         item_id = temp.get_attribute("id")
-        #         if item_id:
-        #             items.append(item_id)
-        #         else:
-        #             print("Found element does not have an ID attribute")
-        #     except NoSuchElementException:
-        #         print("Specific element not found in this itemHolder")
-
         return items
 
 
