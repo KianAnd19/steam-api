@@ -2,6 +2,7 @@ import requests
 import json
 import logging
 import time
+import urllib.parse
 from bs4 import BeautifulSoup
 import re
 from selenium import webdriver
@@ -225,10 +226,38 @@ def get_user_inventory(username):
     URL = f"http://steamcommunity.com/inventory/{username}/730/2?l=english&count=5000"
     page = getRequest(URL)
     if (page == None): return None
-    #convetr to json
+
+    items = {}
+    #convert to json
     json_data = json.loads(page.text)
-    #print to json file
-    return json_data["descriptions"]
+
+    inventory = json_data["assets"]
+    descriptions = json_data["descriptions"]
+
+    for item in inventory:
+        classid = item["classid"]
+        if classid in items:
+            # Increase the count for this classid
+            items[classid]["count"] += 1
+        else:
+            # Add a new entry for this classid
+            items[classid] = {
+                "classid": item["classid"],
+                "instanceid": item["instanceid"],
+                "count": 1}
+
+    for item in descriptions:
+        classid = item["classid"]
+        if classid in items:
+            items[classid]["name"] = item["market_name"]
+            items[classid]["type"] = item["type"]
+            items[classid]["image"] = f"https://community.akamai.steamstatic.com/economy/image/{item['icon_url']}"
+            
+            url = f"https://steamcommunity.com/market/listings/730/{item['market_hash_name']}"
+            encoded_url = urllib.parse.quote(url, safe=':/')
+            items[classid]["link"] = encoded_url
+    
+    return items
 
 ## Exponential backoff in case of 429 error
 def getRequest(url, params=None):
