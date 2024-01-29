@@ -169,7 +169,10 @@ def get_user_inventory_cs(username):
     service = Service(ChromeDriverManager().install())
 
     with webdriver.Chrome(service=service, options=chrome_options) as driver:
-        url = f'https://steamcommunity.com/id/{username}/inventory/#730'
+        if username.isnumeric():
+            url = f'https://steamcommunity.com/profiles/{username}/inventory/#730'
+        else:
+            url = f'https://steamcommunity.com/id/{username}/inventory/#730'
         driver.get(url)
 
         # Wait for the inventory items to load
@@ -179,8 +182,17 @@ def get_user_inventory_cs(username):
 
         items = []
 
-        driver.execute_script("InventoryNextPage();")
-        driver.execute_script("InventoryNextPage();")
+        ## Gets to the last page of the inventory
+        while True:
+            driver.execute_script("InventoryNextPage();")
+            try:
+                next_page_button = driver.find_element(By.ID, "pagebtn_next")
+                if "disabled" in next_page_button.get_attribute("class"):
+                    break  # Break the loop if the button is disabled
+            except NoSuchElementException:
+                # If the button is not found, continue to the next iteration
+                continue
+            
         time.sleep(1)
         # Now using Selenium to find elements
         results = driver.find_elements(By.CLASS_NAME, "itemHolder")
