@@ -5,5 +5,3 @@ data = steam_scraper.get_user_inventory_cs("grandpasaurus")
 file_path = "test.json"
 with open(file_path, 'w') as outfile:
     json.dump(data, outfile, indent=4)
-
-

@@ -186,10 +186,14 @@ def get_user_inventory_cs(username):
         results = driver.find_elements(By.CLASS_NAME, "itemHolder")
         for item in results:
             try:
+                item_temp = {}
                 temp = item.find_element(By.CSS_SELECTOR, ".item.app730.context2")
                 item_id = temp.get_attribute("id")
+                item_image = temp.find_element(By.CSS_SELECTOR, "img")
                 if item_id:
-                    items.append(item_id)
+                    item_temp["id"] = item_id
+                    item_temp["image"] = item_image.get_attribute("src")
+                    items.append(item_temp)
                 else:
                     print("Found element does not have an ID attribute")
             except NoSuchElementException:
