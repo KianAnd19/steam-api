@@ -178,6 +178,10 @@ def get_user_inventory_cs(username):
         )
 
         items = []
+
+        driver.execute_script("InventoryNextPage();")
+        driver.execute_script("InventoryNextPage();")
+        time.sleep(1)
         # Now using Selenium to find elements
         results = driver.find_elements(By.CLASS_NAME, "itemHolder")
         for item in results:
@@ -193,7 +197,7 @@ def get_user_inventory_cs(username):
 
 
         # Execute the JavaScript function directly
-        # driver.execute_script("InventoryNextPage();")
+        
         # time.sleep(10)
 
         # results = driver.find_elements(By.CLASS_NAME, "itemHolder")
