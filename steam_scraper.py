@@ -259,6 +259,37 @@ def get_user_inventory(username):
     
     return items
 
+
+def get_user_inventory_value(filename):
+    # Open and read the JSON file
+    with open(filename, 'r') as file:
+        inventory = json.load(file)
+
+    prices = []
+
+    # Iterate through the JSON data
+    for item_id, item_details in inventory.items():
+        item = {}
+        item["name"] = item_details["name"]
+        item["count"] = item_details["count"]
+
+        URL = f"https://steamcommunity.com/market/priceoverview/?appid=730&currency=28&market_hash_name={item['name']}"
+        page = getRequest(URL)
+        if (page == None): return None
+        json_data = json.loads(page.text)
+        item["price"] = json_data["median_price"]
+        prices.append(item)
+        # print(f"Item ID: {item_id}")
+        # print(f"Class ID: {item_details['classid']}")
+        # print(f"Instance ID: {item_details['instanceid']}")
+        # print(f"Count: {item_details['count']}")
+        # print(f"Name: {item_details['name']}")
+        # print(f"Type: {item_details['type']}")
+        # print(f"Image URL: {item_details['image']}")
+        # print(f"Link: {item_details['link']}")
+        # print("----------")
+        return prices
+
 ## Exponential backoff in case of 429 error
 def getRequest(url, params=None):
     time_wait = 1
