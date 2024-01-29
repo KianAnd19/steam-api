@@ -201,11 +201,15 @@ def get_user_inventory_cs(username):
                 item_temp = {}
                 temp = item.find_element(By.CSS_SELECTOR, ".item.app730.context2")
                 item_id = temp.get_attribute("id")
-                item_image = temp.find_element(By.CSS_SELECTOR, "img")
+                item_image = temp.find_element(By.CSS_SELECTOR, "img").get_attribute("src")
                 if item_id:
-                    item_temp["id"] = item_id
-                    item_temp["image"] = item_image.get_attribute("src")
-                    items.append(item_temp)
+                    if item_image in items:
+                        items[item_id]["count"] = items[item_id]["count"] + 1
+                    else:
+                        item_temp["id"] = item_id
+                        item_temp["image"] = item_image
+                        item_temp["count"] = 1
+                        items.append(item_temp)
                 else:
                     print("Found element does not have an ID attribute")
             except NoSuchElementException:
@@ -213,6 +217,18 @@ def get_user_inventory_cs(username):
 
         return items
 
+###730_2_33548259976
+###730_2_33550092843
+    
+def get_user_inventory(username):
+    user = {}
+    URL = f"http://steamcommunity.com/inventory/{username}/730/2?l=english&count=5000"
+    page = getRequest(URL)
+    if (page == None): return None
+    #convetr to json
+    json_data = json.loads(page.text)
+    #print to json file
+    return json_data["descriptions"]
 
 ## Exponential backoff in case of 429 error
 def getRequest(url, params=None):
@@ -246,6 +262,3 @@ def numerical(text):
         return float(text)
     else:
         return int(text)
-
-
-# print(get_user_inventory_cs("grandpasaurus"))
